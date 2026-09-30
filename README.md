@@ -83,7 +83,7 @@ package.json        依赖与开发命令
 
 ## 环境要求
 
-- Node.js：20.19.0 及以上的 20.x，或 22.12.0 及以上。当前 Vite 版本的运行要求如此。
+- Node.js：推荐 22.20.0 及以上的 22.x，满足当前 lockfile 中全部依赖的 Node engine 要求（包含 Linux 构建依赖）。
 - npm：项目未声明单独的 npm 版本要求，使用与 Node.js 匹配的 npm 即可。
 
 ## 快速开始
@@ -104,6 +104,21 @@ npm run build
 ```
 
 本项目为纯前端，不需要服务器或数据库。Vitest 使用单 worker 配置，以适配受限的 Windows 测试环境；这不影响产品运行时的浏览器行为。
+
+## 部署
+
+构建产物为标准静态网站，可部署到 Cloudflare Pages、Vercel、Netlify 或普通静态服务器的域名根路径。
+
+- Build command：`npm run build`
+- Output directory：`dist`
+- Root directory：仓库根目录
+- Production branch：`master`
+- Node：22.20.0 及以上的 22.x（`.node-version` 指定 22.20.0）
+- Environment variables：无需配置应用环境变量
+
+`docs/scoring-standards/` 是正式评分 PDF 的唯一来源；构建会自动复制其中的 PDF 到 `dist/docs/scoring-standards/`，并校验大小与 SHA-256。可运行 `npm run verify:dist` 检查产物，再用 `npm run preview` 预览生产版本。
+
+应用没有 pathname 路由，不需要 SPA redirect rule。localStorage 按 origin 隔离，开发地址、部署地址和后续自定义域名之间的数据不会自动迁移。
 
 ## 测试状态
 
